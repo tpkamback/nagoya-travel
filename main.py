@@ -14,6 +14,61 @@ app = FastAPI(title="名古屋旅行2026")
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+
+def seed_initial_data():
+    """DBが空のときだけ初期データを投入する"""
+    from database import SessionLocal
+    db = SessionLocal()
+    try:
+        if db.query(models.Day).count() > 0:
+            return  # 既にデータあり
+
+        # ===== 5/3 =====
+        day1 = models.Day(
+            date="2025-05-03",
+            title="移動日〜名古屋到着",
+            description="盛岡から名古屋へ。竜也・直人と合流！",
+        )
+        db.add(day1)
+        db.flush()
+        db.add_all([
+            models.Spot(day_id=day1.id, name="盛岡駅 → 東京駅",   category="移動", time="10:51", notes="10:51 → 13:04（新幹線）", order_index=0),
+            models.Spot(day_id=day1.id, name="竜也と合流・移動",   category="移動", time="13:04", notes="13:04 → 14:00",           order_index=1),
+            models.Spot(day_id=day1.id, name="東京駅 → 名古屋駅", category="移動", time="14:00", notes="14:00 → 15:39（新幹線）", order_index=2),
+            models.Spot(day_id=day1.id, name="お土産探し",         category="観光", time="15:39", notes="15:39 → 16:30",           order_index=3),
+            models.Spot(day_id=day1.id, name="直人と合流・直人家", category="観光", time="16:30", notes="16:30 → 18:00（様子見て時間変更あり）", order_index=4),
+            models.Spot(day_id=day1.id, name="夕飯",               category="食事", time="18:00", notes="18:00 → 19:00",           order_index=5),
+            models.Spot(day_id=day1.id, name="ホテルに移動",       category="宿泊", time="19:00", notes="",                        order_index=6),
+        ])
+
+        # ===== 5/4 =====
+        day2 = models.Day(
+            date="2025-05-04",
+            title="名古屋→東京〜帰路",
+            description="竜也家に立ち寄り、上野でお土産を買って盛岡へ帰宅！",
+        )
+        db.add(day2)
+        db.flush()
+        db.add_all([
+            models.Spot(day_id=day2.id, name="名古屋駅集合",       category="移動", time="9:50",  notes="名古屋駅に集合",          order_index=0),
+            models.Spot(day_id=day2.id, name="名古屋駅 → 東京駅", category="移動", time="10:00", notes="10:00 → 11:39（新幹線）", order_index=1),
+            models.Spot(day_id=day2.id, name="竜也家着",           category="観光", time="11:39", notes="11:39 → 12:42",           order_index=2),
+            models.Spot(day_id=day2.id, name="触れ合い＋ご飯",    category="食事", time="12:42", notes="12:42 → 14:36",           order_index=3),
+            models.Spot(day_id=day2.id, name="上野駅に移動",       category="移動", time="14:36", notes="14:36 → 15:21",           order_index=4),
+            models.Spot(day_id=day2.id, name="お土産（上野）",     category="観光", time="15:21", notes="15:21 → 16:20",           order_index=5),
+            models.Spot(day_id=day2.id, name="上野駅 → 盛岡駅",   category="移動", time="16:20", notes="16:20 → 18:33（新幹線）", order_index=6),
+        ])
+
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        print(f"seed error: {e}")
+    finally:
+        db.close()
+
+
+seed_initial_data()
+
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "changeme")
 SESSION_COOKIE = "nagoya_admin"
 
