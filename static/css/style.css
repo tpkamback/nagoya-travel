@@ -1,0 +1,44 @@
+.hero {
+  background: linear-gradient(135deg, #b71c1c, #880e4f);
+}
+
+/* 日程カード */
+.day-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.day-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.13) !important;
+}
+
+/* カテゴリバッジ */
+.badge-観光  { background-color: #1565c0; color: #fff; }
+.badge-食事  { background-color: #e65100; color: #fff; }
+.badge-カフェ { background-color: #5d4037; color: #fff; }
+.badge-宿泊  { background-color: #6a1b9a; color: #fff; }
+.badge-移動  { background-color: #424242; color: #fff; }
+
+/* スポットカード左ボーダー */
+.spot-card        { border-left: 4px solid #ccc; }
+.spot-観光        { border-left-color: #1565c0; }
+.spot-食事        { border-left-color: #e65100; }
+.spot-カフェ      { border-left-color: #5d4037; }
+.spot-宿泊        { border-left-color: #6a1b9a; }
+.spot-移動        { border-left-color: #424242; }
+
+/* カテゴリアイコン丸 */
+.cat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+.cat-icon-観光  { background: #e3f2fd; color: #1565c0; }
+.cat-icon-食事  { background: #fff3e0; color: #e65100; }
+.cat-icon-カフェ { background: #efebe9; color: #5d4037; }
+.cat-icon-宿泊  { background: #f3e5f5; color: #6a1b9a; }
+.cat-icon-移動  { background: #f5f5f5; color: #424242; }

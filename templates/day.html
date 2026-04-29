@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{{ day.title }} - 名古屋旅行2026{% endblock %}
+
+{% block content %}
+<a href="/" class="btn btn-outline-secondary btn-sm mb-3">
+  <i class="bi bi-arrow-left me-1"></i>一覧に戻る
+</a>
+
+<div class="hero rounded-4 text-white p-4 mb-4 shadow-sm">
+  <div class="opacity-75 small mb-1">{{ day.date }}</div>
+  <h1 class="h3 fw-bold mb-0">{{ day.title }}</h1>
+  {% if day.description %}
+  <p class="mb-0 mt-2 opacity-85">{{ day.description }}</p>
+  {% endif %}
+</div>
+
+{% if day.spots %}
+<div class="d-flex flex-column gap-3">
+  {% for spot in day.spots %}
+  <div class="card shadow-sm spot-card spot-{{ spot.category }}">
+    <div class="card-body">
+      <div class="d-flex align-items-start gap-3">
+        <div class="cat-icon cat-icon-{{ spot.category }}">
+          {% if spot.category == '観光' %}<i class="bi bi-camera-fill"></i>
+          {% elif spot.category == '食事' %}<i class="bi bi-egg-fried"></i>
+          {% elif spot.category == 'カフェ' %}<i class="bi bi-cup-hot-fill"></i>
+          {% elif spot.category == '宿泊' %}<i class="bi bi-house-fill"></i>
+          {% else %}<i class="bi bi-train-front-fill"></i>
+          {% endif %}
+        </div>
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+            <div>
+              <h5 class="mb-1 fw-bold">{{ spot.name }}</h5>
+              <span class="badge badge-{{ spot.category }} me-1">{{ spot.category }}</span>
+              {% if spot.time %}
+              <span class="text-muted small"><i class="bi bi-clock me-1"></i>{{ spot.time }}</span>
+              {% endif %}
+            </div>
+            {% if spot.map_url %}
+            <a href="{{ spot.map_url }}" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-geo-alt me-1"></i>マップ
+            </a>
+            {% endif %}
+          </div>
+          {% if spot.notes %}
+          <p class="text-muted small mt-2 mb-0">{{ spot.notes }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5 text-muted">
+  <i class="bi bi-pin-map display-3 d-block mb-3"></i>
+  スポットがまだありません
+</div>
+{% endif %}
+{% endblock %}

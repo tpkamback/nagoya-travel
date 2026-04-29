@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}名古屋旅行2026{% endblock %}
+
+{% block content %}
+<div class="hero rounded-4 text-white p-4 mb-4 shadow-sm">
+  <h1 class="fw-bold mb-1"><i class="bi bi-torii-gate me-2"></i>名古屋旅行2026</h1>
+  <p class="mb-0 opacity-75">旅程一覧</p>
+</div>
+
+{% if days %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  {% for day in days %}
+  <div class="col">
+    <a href="/day/{{ day.id }}" class="text-decoration-none text-dark">
+      <div class="card h-100 shadow-sm day-card">
+        <div class="card-header text-white" style="background: linear-gradient(135deg, #b71c1c, #880e4f);">
+          <div class="fw-bold">{{ day.date }}</div>
+          <div class="small opacity-90">{{ day.title }}</div>
+        </div>
+        <div class="card-body">
+          {% if day.description %}
+          <p class="text-muted small mb-2">{{ day.description }}</p>
+          {% endif %}
+          <div class="d-flex flex-wrap gap-1">
+            {% for spot in day.spots %}
+            <span class="badge badge-{{ spot.category }}">{{ spot.category }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="card-footer text-muted small">
+          <i class="bi bi-pin-map me-1"></i>{{ day.spots|length }} 件のスポット
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5 text-muted">
+  <i class="bi bi-calendar-x display-3 d-block mb-3"></i>
+  旅程がまだありません
+</div>
+{% endif %}
+{% endblock %}
